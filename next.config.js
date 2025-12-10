@@ -1,18 +1,18 @@
 /** @type {import('next').NextConfig} */
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const repoName = 'ow-hero-picker';
+const basePath = isGithubActions ? `/${repoName}` : '';
+
 const nextConfig = {
-  output: 'export',  // 启用静态导出
-  basePath: '/ow-hero-picker',  // GitHub Pages子路径
-  assetPrefix: '/ow-hero-picker/',  // 静态资源前缀
+  output: 'export',
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : undefined,
   images: {
-    domains: ['localhost', 'd15f34w2p8l1cc.cloudfront.net'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-    unoptimized: true  // 禁用图片优化（GitHub Pages不支持）
+    unoptimized: true,
   },
-}
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
+};
 
 module.exports = nextConfig

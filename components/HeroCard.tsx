@@ -108,12 +108,12 @@ export default function HeroCard({ hero, rating, onRatingChange, disabled = fals
         <div className="aspect-square relative overflow-hidden">
           {hero.avatar ? (
             <img 
-              src={hero.avatar} 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${hero.avatar}`}
               alt={hero.name}
               className="w-full h-full object-cover transition-transform group-hover:scale-110"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-slate-700"><span class="text-3xl font-bold">${hero.name[0]}</span></div>`;
+                e.currentTarget.parentElement!.innerHTML = `<div class=\"w-full h-full flex items-center justify-center bg-slate-700\"><span class=\"text-3xl font-bold\">${hero.name[0]}</span></div>`;
               }}
             />
           ) : (

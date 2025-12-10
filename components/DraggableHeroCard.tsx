@@ -120,11 +120,12 @@ export default function DraggableHeroCard({
         <div className="aspect-square relative overflow-hidden">
           {hero.avatar ? (
             <img 
-              src={hero.avatar} 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${hero.avatar}`}
               alt={hero.name}
               className="w-full h-full object-cover transition-transform group-hover:scale-110"
               onError={(e) => {
-                e.currentTarget.src = '/placeholder-hero.png';
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center"><span class="text-xs text-slate-400">' + (hero.name ? hero.name[0] : '?') + '</span></div>';
               }}
             />
           ) : (

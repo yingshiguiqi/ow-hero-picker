@@ -234,116 +234,81 @@ export default function HeroGrid({ mode, importedHeroes = [] }: HeroGridProps) {
         </div>
       </div>
 
-      {/* 已评级英雄 - 加强版 */}
+      {/* 已评级英雄 - 可放置区域 */}
       <div className="mb-8 space-y-4">
-        {heroesByRating[HeroRating.GOOD].length > 0 && (
-          <div className="relative bg-gradient-to-r from-orange-500/15 via-orange-500/8 to-transparent border-l-4 border-orange-500 rounded-r-lg p-5 shadow-lg shadow-orange-500/10 animate-slide-up">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3 min-w-[140px]">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-orange-500 blur-xl opacity-60"></div>
-                  <div className="relative w-2.5 h-12 bg-gradient-to-b from-orange-400 via-orange-500 to-orange-600 rounded-full shadow-lg"></div>
-                </div>
-                <div>
-                  <span className="text-lg font-black text-orange-400 uppercase tracking-wider block drop-shadow-lg">推荐</span>
-                  <span className="text-xs text-orange-300/70">({heroesByRating[HeroRating.GOOD].length} 英雄)</span>
-                </div>
+        <DroppableRatingZone
+          rating={HeroRating.GOOD}
+          title="推荐"
+          icon={<ThumbsUp className="w-4 h-4" />}
+          count={heroesByRating[HeroRating.GOOD].length}
+        >
+          {heroesByRating[HeroRating.GOOD].map(hero => (
+            <button
+              key={hero.id}
+              onClick={() => handleHeroClick(hero)}
+              className="group relative"
+              title={`移除 ${hero.name}`}
+            >
+              <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-orange-500/40 to-orange-600/25 border-3 border-orange-500/70 hover:border-orange-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-orange-500/30">
+                {hero.avatar && <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${hero.avatar}`} alt={hero.name} className="w-full h-full object-cover" />}
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-900/50 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-orange-900/90 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
               </div>
-              <div className="flex flex-wrap gap-4 flex-1">
-                {heroesByRating[HeroRating.GOOD].map(hero => (
-                  <button
-                    key={hero.id}
-                    onClick={() => handleHeroClick(hero)}
-                    className="group relative"
-                    title={`移除 ${hero.name}`}
-                  >
-                    <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-orange-500/40 to-orange-600/25 border-3 border-orange-500/70 hover:border-orange-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-orange-500/30">
-                      {hero.avatar && <img src={hero.avatar} alt={hero.name} className="w-full h-full object-cover" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-orange-900/50 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-orange-900/90 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+            </button>
+          ))}
+        </DroppableRatingZone>
 
-        {heroesByRating[HeroRating.AVERAGE].length > 0 && (
-          <div className="relative bg-gradient-to-r from-blue-500/15 via-blue-500/8 to-transparent border-l-4 border-blue-500 rounded-r-lg p-5 shadow-lg shadow-blue-500/10 animate-slide-up">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3 min-w-[140px]">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-blue-500 blur-xl opacity-60"></div>
-                  <div className="relative w-2.5 h-12 bg-gradient-to-b from-blue-400 via-blue-500 to-blue-600 rounded-full shadow-lg"></div>
-                </div>
-                <div>
-                  <span className="text-lg font-black text-blue-400 uppercase tracking-wider block drop-shadow-lg">备选</span>
-                  <span className="text-xs text-blue-300/70">({heroesByRating[HeroRating.AVERAGE].length} 英雄)</span>
-                </div>
+        <DroppableRatingZone
+          rating={HeroRating.AVERAGE}
+          title="备选"
+          icon={<Minus className="w-4 h-4" />}
+          count={heroesByRating[HeroRating.AVERAGE].length}
+        >
+          {heroesByRating[HeroRating.AVERAGE].map(hero => (
+            <button
+              key={hero.id}
+              onClick={() => handleHeroClick(hero)}
+              className="group relative"
+              title={`移除 ${hero.name}`}
+            >
+              <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-blue-500/40 to-blue-600/25 border-3 border-blue-500/70 hover:border-blue-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-blue-500/30">
+                {hero.avatar && <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${hero.avatar}`} alt={hero.name} className="w-full h-full object-cover" />}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-blue-900/90 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
               </div>
-              <div className="flex flex-wrap gap-4 flex-1">
-                {heroesByRating[HeroRating.AVERAGE].map(hero => (
-                  <button
-                    key={hero.id}
-                    onClick={() => handleHeroClick(hero)}
-                    className="group relative"
-                    title={`移除 ${hero.name}`}
-                  >
-                    <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-blue-500/40 to-blue-600/25 border-3 border-blue-500/70 hover:border-blue-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-blue-500/30">
-                      {hero.avatar && <img src={hero.avatar} alt={hero.name} className="w-full h-full object-cover" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-blue-900/90 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+            </button>
+          ))}
+        </DroppableRatingZone>
 
-        {heroesByRating[HeroRating.BAD].length > 0 && (
-          <div className="relative bg-gradient-to-r from-red-500/8 via-red-500/4 to-transparent border-l-4 border-red-500/60 rounded-r-lg p-5 shadow-lg shadow-red-500/10 animate-slide-up">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3 min-w-[140px]">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-red-500 blur-xl opacity-40"></div>
-                  <div className="relative w-2.5 h-12 bg-gradient-to-b from-red-400 via-red-500 to-red-600 rounded-full shadow-lg"></div>
-                </div>
-                <div>
-                  <span className="text-lg font-black text-red-400 uppercase tracking-wider block drop-shadow-lg">不推荐</span>
-                  <span className="text-xs text-red-300/70">({heroesByRating[HeroRating.BAD].length} 英雄)</span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-4 flex-1">
-                {heroesByRating[HeroRating.BAD].map(hero => (
-                  <button
-                    key={hero.id}
-                    onClick={() => handleHeroClick(hero)}
-                    className="group relative"
-                    title={`移除 ${hero.name}`}
-                  >
-                    <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-red-500/15 to-red-600/10 border-3 border-red-500/60 hover:border-red-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-red-500/20">
-                      {hero.avatar && (
-                        <>
-                          <img src={hero.avatar} alt={hero.name} className="w-full h-full object-cover" />
-                          {/* 红色半透明遮罩 */}
-                          <div className="absolute inset-0 bg-red-500/25 mix-blend-multiply group-hover:bg-red-500/15 transition-all"></div>
-                          {/* 警告图标 */}
-                          <div className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <span className="text-white text-xs font-black">!</span>
-                          </div>
-                        </>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-red-900/40 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-red-900/80 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
+        <DroppableRatingZone
+          rating={HeroRating.BAD}
+          title="不推荐"
+          icon={<ThumbsDown className="w-4 h-4" />}
+          count={heroesByRating[HeroRating.BAD].length}
+        >
+          {heroesByRating[HeroRating.BAD].map(hero => (
+            <button
+              key={hero.id}
+              onClick={() => handleHeroClick(hero)}
+              className="group relative"
+              title={`移除 ${hero.name}`}
+            >
+              <div className="relative w-20 h-20 rounded-lg bg-gradient-to-br from-red-500/15 to-red-600/10 border-3 border-red-500/60 hover:border-red-400 hover:scale-110 transition-all overflow-hidden shadow-2xl shadow-red-500/20">
+                {hero.avatar && (
+                  <>
+                    <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${hero.avatar}`} alt={hero.name} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-red-500/25 mix-blend-multiply group-hover:bg-red-500/15 transition-all"></div>
+                    <div className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <span className="text-white text-xs font-black">!</span>
                     </div>
-                  </button>
-                ))}
+                  </>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-red-900/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 text-[10px] font-bold text-white text-center bg-red-900/80 px-1 py-1 leading-tight shadow-lg">{hero.name}</div>
               </div>
-            </div>
-          </div>
-        )}
+            </button>
+          ))}
+        </DroppableRatingZone>
       </div>
 
       {/* 主区域：英雄选择池 */}
