@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Map as MapData, MapType, maps } from '@/data/maps';
-import { ChevronDown, ChevronRight, MapPin } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { Map as MapData, MapType, maps } from "@/data/maps";
+import { ChevronDown, ChevronRight, MapPin } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface MapSelectorProps {
   selectedMap: MapData | null;
@@ -11,8 +11,14 @@ interface MapSelectorProps {
   onMapSelect: (map: MapData, subMap?: any) => void;
 }
 
-export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }: MapSelectorProps) {
-  const [expandedTypes, setExpandedTypes] = useState<Set<MapType>>(new Set([MapType.CONTROL]));
+export default function MapSelector({
+  selectedMap,
+  selectedSubMap,
+  onMapSelect,
+}: MapSelectorProps) {
+  const [expandedTypes, setExpandedTypes] = useState<Set<MapType>>(
+    new Set([MapType.CONTROL])
+  );
 
   const toggleType = (type: MapType) => {
     const newExpanded = new Set(expandedTypes);
@@ -26,9 +32,9 @@ export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }
 
   const getTypeColor = (type: MapType, isExpanded: boolean) => {
     if (isExpanded) {
-      return 'text-orange-400';
+      return "text-orange-400";
     }
-    return 'text-slate-400';
+    return "text-slate-400";
   };
 
   // 按类型分组地图
@@ -46,15 +52,26 @@ export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }
         <MapPin className="w-5 h-5" />
         选择地图
       </h2>
-      
+
       <div className="space-y-2">
         {Object.entries(mapsByType).map(([type, typeMaps]) => (
-          <div key={type} className="border border-slate-700 rounded-lg overflow-hidden">
+          <div
+            key={type}
+            className="border border-slate-700 rounded-lg overflow-hidden"
+          >
             <button
               onClick={() => toggleType(type as MapType)}
               className="w-full p-3 bg-slate-800/50 hover:bg-slate-700/50 transition-colors flex items-center justify-between"
             >
-              <span className={cn('font-semibold', getTypeColor(type as MapType, expandedTypes.has(type as MapType)))}>
+              <span
+                className={cn(
+                  "font-semibold",
+                  getTypeColor(
+                    type as MapType,
+                    expandedTypes.has(type as MapType)
+                  )
+                )}
+              >
                 {type} ({typeMaps.length})
               </span>
               {expandedTypes.has(type as MapType) ? (
@@ -63,7 +80,7 @@ export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }
                 <ChevronRight className="w-4 h-4" />
               )}
             </button>
-            
+
             {expandedTypes.has(type as MapType) && (
               <div className="p-2 space-y-1">
                 {typeMaps.map((map) => (
@@ -78,10 +95,11 @@ export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }
                             key={subMap.id}
                             onClick={() => onMapSelect(map, subMap)}
                             className={cn(
-                              'w-full text-left px-4 py-2 rounded hover:bg-slate-700/50 transition-colors text-sm',
-                              selectedMap?.id === map.id && selectedSubMap?.id === subMap.id
-                                ? 'bg-blue-500/20 border border-blue-500'
-                                : ''
+                              "relative w-full text-left px-4 py-2 rounded hover:bg-slate-700/50 transition-colors text-sm",
+                              selectedMap?.id === map.id &&
+                                selectedSubMap?.id === subMap.id
+                                ? "bg-blue-500/20 border border-blue-500 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-blue-400"
+                                : ""
                             )}
                           >
                             {subMap.name}
@@ -92,10 +110,10 @@ export default function MapSelector({ selectedMap, selectedSubMap, onMapSelect }
                       <button
                         onClick={() => onMapSelect(map)}
                         className={cn(
-                          'w-full text-left px-4 py-2 rounded hover:bg-slate-700/50 transition-colors',
+                          "relative w-full text-left px-4 py-2 rounded hover:bg-slate-700/50 transition-colors",
                           selectedMap?.id === map.id && !selectedSubMap
-                            ? 'bg-blue-500/20 border border-blue-500'
-                            : ''
+                            ? "bg-blue-500/20 border border-blue-500 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-blue-400"
+                            : ""
                         )}
                       >
                         {map.name}

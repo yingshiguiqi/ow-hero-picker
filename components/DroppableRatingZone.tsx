@@ -4,6 +4,7 @@ import React from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { HeroRating } from "@/data/heroes";
 import { cn } from "@/lib/utils";
+import { Shield, Swords, Heart } from "lucide-react";
 
 interface DroppableRatingZoneProps {
   rating: HeroRating;
@@ -11,6 +12,8 @@ interface DroppableRatingZoneProps {
   title: string;
   icon: React.ReactNode;
   count: number;
+  roleSummary?: { tank: number; damage: number; support: number };
+  hintMode?: "drag" | "click";
 }
 
 export default function DroppableRatingZone({
@@ -19,6 +22,8 @@ export default function DroppableRatingZone({
   title,
   icon,
   count,
+  roleSummary,
+  hintMode = "drag",
 }: DroppableRatingZoneProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: `zone-${rating}`,
@@ -88,21 +93,44 @@ export default function DroppableRatingZone({
             {title}
           </h3>
         </div>
-        <span
-          className={cn(
-            "px-2 py-0.5 rounded-full text-xs font-semibold",
-            `bg-${
-              rating === HeroRating.GOOD
-                ? "orange"
-                : rating === HeroRating.AVERAGE
-                ? "blue"
-                : "red"
-            }-500/20`,
-            style.text
+        <div className="flex items-center gap-3">
+          {roleSummary && (
+            <div
+              className={cn(
+                "hidden sm:flex items-center gap-2 text-[11px]",
+                style.text
+              )}
+            >
+              <span className="flex items-center gap-1 opacity-80">
+                <Shield className="w-3.5 h-3.5" />
+                {roleSummary.tank}
+              </span>
+              <span className="flex items-center gap-1 opacity-80">
+                <Swords className="w-3.5 h-3.5" />
+                {roleSummary.damage}
+              </span>
+              <span className="flex items-center gap-1 opacity-80">
+                <Heart className="w-3.5 h-3.5" />
+                {roleSummary.support}
+              </span>
+            </div>
           )}
-        >
-          {count}
-        </span>
+          <span
+            className={cn(
+              "px-2 py-0.5 rounded-full text-xs font-semibold",
+              `bg-${
+                rating === HeroRating.GOOD
+                  ? "orange"
+                  : rating === HeroRating.AVERAGE
+                  ? "blue"
+                  : "red"
+              }-500/20`,
+              style.text
+            )}
+          >
+            {count}
+          </span>
+        </div>
       </div>
 
       {/* 拖拽目标提示 */}
@@ -123,13 +151,15 @@ export default function DroppableRatingZone({
       {/* 内容区域 */}
       <div
         className={cn(
-          "min-h-[96px] grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2",
+          "grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2",
           isOver && "opacity-50"
         )}
       >
         {count === 0 && !isOver ? (
           <div className="col-span-full flex items-center justify-center py-6 opacity-70">
-            <div className={cn("text-sm", style.text)}>将英雄拖拽到这里</div>
+            <div className={cn("text-sm", style.text)}>
+              {hintMode === "click" ? "点击英雄分配到这里" : "将英雄拖拽到这里"}
+            </div>
           </div>
         ) : (
           children

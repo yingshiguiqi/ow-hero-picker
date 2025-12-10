@@ -274,7 +274,7 @@ export default function HeroGrid({ mode, importedHeroes = [] }: HeroGridProps) {
               className="px-4 py-2.5 h-10 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded font-medium transition-all flex items-center gap-2 text-sm uppercase tracking-wide border border-slate-500/50"
             >
               <Zap className="w-4 h-4" />
-              清空剩余
+              将未评级设为不推荐
             </button>
           </div>
         </div>
