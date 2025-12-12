@@ -1,19 +1,23 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
+# dependencies（前后端通用）
+node_modules/
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage/
 
-# next.js
-/.next/
-/out/
+# Next.js（web 子项目）
+web/.next/
+web/out/
+
+# root 级 Next 产物（预防性）
+.next/
+out/
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
@@ -33,3 +37,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# dotnet / WPF
+.vs/
+OwHeroPicker/bin/
+OwHeroPicker/obj/
+*.user
+*.suo
